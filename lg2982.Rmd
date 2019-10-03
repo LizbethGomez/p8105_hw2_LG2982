@@ -34,9 +34,29 @@ precipitation2018 =
   read_excel("data/HHWWTotals2018.xlsx", 
               sheet =  "2018 Precipitation", range ="A2:B14")%>%
               mutate(year = "2018")
+bind_precip = 
+  bind_rows(precipitation2017, precipitation2018) 
 
 
+bind_precip$Month = month.name 
 
+#Means of key variables in Mr. Trash Wheel
+mean(pull(trash_data, plastic_bottles))
+mean(pull(trash_data, cigarette_butts))
+mean(pull(trash_data, grocery_bags))
+mean(pull(trash_data, sports_balls))
+
+ball_in_2017 = trash_data%>%
+  filter(year == 2017)
+median(pull(ball_in_2017, sports_balls))
+
+#Means of key variables in precipitation data
+rain_in_2018 = bind_precip%>%
+  filter(year == 2018)
+sum(pull(rain_in_2018, Total))
+
+mean(pull(bind_precip, Total))
 
 ```
 
+After joining the datasets for precipitation in 2018 and 2017 we have 24 observations. One for each month in the two year period. For the Mr. Trash Wheel data we have 14 variables and 344 observations. In the Mr. Trash Wheel data, the mean Plastic bottle, cigarette butts and grocery bags is equal to 1873.154, 30754.13, 1311.227, respectively. The mean sports balls found was equal to 11.81105. In the precipitation data, the total average of rain fall for the two year period was 4.3025 in; in 2018 alone the total precipitation was 70.33 in. Moreover, the median number of sports balls in 2017 is 8, 
