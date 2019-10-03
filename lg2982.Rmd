@@ -40,6 +40,7 @@ bind_precip =
 
 bind_precip$Month = month.name 
 
+
 #Means of key variables in Mr. Trash Wheel
 mean(pull(trash_data, plastic_bottles))
 mean(pull(trash_data, cigarette_butts))
@@ -61,26 +62,39 @@ mean(pull(bind_precip, Total))
 
 After joining the datasets for precipitation in 2018 and 2017 we have 24 observations. One for each month in the two year period. For the Mr. Trash Wheel data we have 14 variables and 344 observations. In the Mr. Trash Wheel data, the mean Plastic bottle, cigarette butts and grocery bags is equal to 1873.154, 30754.13, 1311.227, respectively. The mean sports balls found was equal to 11.81105. In the precipitation data, the total average of rain fall for the two year period was 4.3025 in; in 2018 alone the total precipitation was 70.33 in. Moreover, the median number of sports balls in 2017 is 8.
 
-```{r, problem 2}
+```{r, problem 2, eval=FALSE}
 # Pols data
 pols = 
     read_csv("data/pols-month.csv") %>%
     janitor::clean_names()%>%
     separate(mon, into = c("year", "month", "day"))
-    #five_thirty$month = month.name 
+pols = mutate(pols, month = as.integer(month))
+pols$month =month.abb [pull(pols, month)]
+
+    
+head(pols)
+
+
 pols_selected = mutate(
   pols, presidents = prez_dem + prez_gop) 
 
   pols_selected = select(pols_selected, -prez_dem, -prez_gop, - day)
 
 head(pols_selected)
+
+
 #SNP data
 snp = 
     read_csv("data/snp.csv") %>%
     janitor::clean_names()%>%
     separate(date, into = c("day", "month", "year"))
+snp = mutate(snp, month = as.integer(month))
+snp$month =month.abb [pull(snp, month)]
+snp = select(snp,- day)
 
 head(snp)
+
+
 #Unemployment data
 unemployment = 
     read_csv("data/unemployment.csv") %>%
@@ -92,10 +106,32 @@ unemploy_tidy_data =
     jan:dec,
     names_to = "month", 
     values_to = "unemployment")
+
+CapStr <- function(y) {
+  c <- strsplit(y, " ")[[1]]
+  paste(toupper(substring(c, 1,1)), substring(c, 2),
+      sep="", collapse=" ")
+}
+unemploy_tidy_data$month = sapply(unemploy_tidy_data$month, CapStr)
 head(unemploy_tidy_data)
 
+#merging!
+
+thirty_fifty =
+ left_join(snp, pols_selected, by = "year")
+thirty_fifty
+
+thirty_fifty_five =
+  left_join(thirty_fifty, unemploy_tidy_data, by = "year")
+thirty_fifty_five
 
 
-
+```
+In these dataset, we have a wide range of variables, from unemployment rates from 1950 to 2015; presidents and their respective political party as well as specific senators, governors and reps for each party. In the rsulting dataset we have the closing values of the S&P stock index, unemployment rates, number of republican governors , number of republican senators ,  number of republican representatives , number of democratic governors, number of democratic senators , number of democratic representatives from 1950-2015 as well as the number of president for each year. this is a dataset with 13 variables and 112824 observations.
+```{r}
+baby_names = 
+    read_csv("data/Popular_Baby_Names.csv") %>%
+    janitor::clean_names()
+    distinct(baby_names)
 ```
 
