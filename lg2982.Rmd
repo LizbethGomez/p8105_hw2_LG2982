@@ -107,12 +107,7 @@ unemploy_tidy_data =
     names_to = "month", 
     values_to = "unemployment")
 
-CapStr <- function(y) {
-  c <- strsplit(y, " ")[[1]]
-  paste(toupper(substring(c, 1,1)), substring(c, 2),
-      sep="", collapse=" ")
-}
-unemploy_tidy_data$month = sapply(unemploy_tidy_data$month, CapStr)
+
 head(unemploy_tidy_data)
 
 #merging!
@@ -128,6 +123,7 @@ thirty_fifty_five
 
 ```
 In these dataset, we have a wide range of variables, from unemployment rates from 1950 to 2015; presidents and their respective political party as well as specific senators, governors and reps for each party. In the rsulting dataset we have the closing values of the S&P stock index, unemployment rates, number of republican governors , number of republican senators ,  number of republican representatives , number of democratic governors, number of democratic senators , number of democratic representatives from 1950-2015 as well as the number of president for each year. this is a dataset with 13 variables and 112824 observations.
+
 ```{r}
 baby_names = 
     read_csv("data/Popular_Baby_Names.csv") %>%
