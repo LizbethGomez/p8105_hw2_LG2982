@@ -161,8 +161,5 @@ male_specific = baby_names %>%
   filter(gender == "MALE", ethnicity == "WHITE NON HISPANIC",year_of_birth == "2016") %>% 
   group_by(count)
   ggplot(male_specific, aes(x = rank, y =count )) + geom_point() + xlab("Rank in Popularity") + ylab ("Number of Children with a Given Name")
-
- 
-
 ```
-
+As expected the larger the number of children with a given name, the higher the rank (in this case 1 is the highest rank)
