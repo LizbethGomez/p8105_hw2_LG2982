@@ -127,7 +127,15 @@ In these dataset, we have a wide range of variables, from unemployment rates fro
 ```{r}
 baby_names = 
     read_csv("data/Popular_Baby_Names.csv") %>%
-    janitor::clean_names()
-    distinct(baby_names)
+    janitor::clean_names()%>%
+    mutate(
+      childs_first_name = str_to_lower(childs_first_name),
+      
+    ) %>% 
+    distinct(childs_first_name, .keep_all = TRUE) 
+
+  
+
+
 ```
 
