@@ -87,7 +87,8 @@ head(pols_selected)
 snp = 
     read_csv("data/snp.csv") %>%
     janitor::clean_names()%>%
-    separate(date, into = c("day", "month", "year"))
+    separate(date, into = c("day", "month", "year")) %>% 
+    arrange(year, month, close, day)
 snp = mutate(snp, month = as.integer(month))
 snp$month =month.abb [pull(snp, month)]
 snp = select(snp,- day)
@@ -130,12 +131,38 @@ baby_names =
     janitor::clean_names()%>%
     mutate(
       childs_first_name = str_to_lower(childs_first_name),
+      ethnicity = recode(ethnicity, `ASIAN AND PACI` = "ASIAN AND PACIFIC ISLANDER", `BLACK NON HISP` = "BLACK NON HISPANIC", `WHITE NON HISP`= "WHITE NON HISPANIC") 
       
-    ) %>% 
-    distinct(childs_first_name, .keep_all = TRUE) 
+    ) 
 
+olivia_popularity = baby_names%>% 
+  filter(childs_first_name == "olivia") %>% 
+  group_by(ethnicity)%>%
+  distinct(year_of_birth, .keep_all = TRUE) %>% 
+  select( - gender) %>% 
+  pivot_wider(
+  names_from = "year_of_birth", 
+  values_from = "rank")
   
+  knitr::kable (olivia_popularity)  ##not very tidy but there are the ranks, hopefully is readable to you :)
 
+
+males_babies = baby_names%>%
+    filter(gender == "MALE") %>% 
+    group_by(ethnicity)%>%
+       distinct(year_of_birth, .keep_all = TRUE) %>%  
+       pivot_wider(
+      names_from = "year_of_birth", 
+      values_from = "count") 
+knitr::kable(males_babies) #again not very tidy
+    
+
+male_specific = baby_names %>% 
+  filter(gender == "MALE", ethnicity == "WHITE NON HISPANIC",year_of_birth == "2016") %>% 
+  group_by(count)
+  ggplot(male_specific, aes(x = rank, y =count )) + geom_point() + xlab("Rank in Popularity") + ylab ("Number of Children with a Given Name")
+
+ 
 
 ```
 
