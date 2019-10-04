@@ -62,7 +62,7 @@ mean(pull(bind_precip, Total))
 
 After joining the datasets for precipitation in 2018 and 2017 we have 24 observations. One for each month in the two year period. For the Mr. Trash Wheel data we have 14 variables and 344 observations. In the Mr. Trash Wheel data, the mean Plastic bottle, cigarette butts and grocery bags is equal to 1873.154, 30754.13, 1311.227, respectively. The mean sports balls found was equal to 11.81105. In the precipitation data, the total average of rain fall for the two year period was 4.3025 in; in 2018 alone the total precipitation was 70.33 in. Moreover, the median number of sports balls in 2017 is 8.
 
-```{r, problem 2, eval=FALSE}
+```{r, problem 2}
 # Pols data
 pols = 
     read_csv("data/pols-month.csv") %>%
@@ -125,7 +125,7 @@ thirty_fifty_five
 ```
 In these dataset, we have a wide range of variables, from unemployment rates from 1950 to 2015; presidents and their respective political party as well as specific senators, governors and reps for each party. In the rsulting dataset we have the closing values of the S&P stock index, unemployment rates, number of republican governors , number of republican senators ,  number of republican representatives , number of democratic governors, number of democratic senators , number of democratic representatives from 1950-2015 as well as the number of president for each year. this is a dataset with 13 variables and 112824 observations.
 
-```{r}
+```{r, problem 3}
 baby_names = 
     read_csv("data/Popular_Baby_Names.csv") %>%
     janitor::clean_names()%>%
